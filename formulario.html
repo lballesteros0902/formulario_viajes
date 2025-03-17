@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Tiquetes</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .note {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+        .trayecto-container {
+            display: flex;
+            gap: 10px;
+        }
+        .trayecto-container input[type="text"] {
+            flex: 2;
+        }
+        .trayecto-container input[type="datetime-local"] {
+            flex: 1;
+        }
+        #fechaNacimientoSection, #destinosSection, #ciudadHospedaje {
+            display: none;
+        }
+        .destino-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .add-btn, .remove-btn {
+            cursor: pointer;
+            font-size: 14px;
+            padding: 8px 15px;
+            background-color: #2a2d30;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        
+    </style>
+    <script>
+        function toggleSection() {
+            const requiereTiquete = document.getElementById('requiereTiquete').value;
+            document.getElementById('fechaNacimientoSection').style.display = requiereTiquete === 'si' ? 'block' : 'none';
+
+            const variosViajes = document.getElementById('variosViajes').value;
+            document.getElementById('destinosSection').style.display = variosViajes === 'si' ? 'block' : 'none';
+
+            const requiereHospedaje = document.getElementById('requiereHospedaje').value;
+            document.getElementById('ciudadHospedaje').style.display = requiereHospedaje === 'no' ? 'block' : 'none';
+        }
+
+        function addDestino() {
+            const container = document.getElementById('destinosContainer');
+            const newDestino = document.createElement('div');
+            newDestino.classList.add('destino-item');
+            newDestino.innerHTML = `
+                <input type="text" placeholder="Destino-Origen">
+                <input type="datetime-local">
+                <input type="datetime-local">
+                <button class="remove-btn" onclick="removeDestino(this)">❌</button>
+            `;
+            container.appendChild(newDestino);
+        }
+
+        function removeDestino(button) {
+            button.parentElement.remove();
+        }
+        
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Solicitud de tiquetes y gastos de viaje</h2>
+    <p class="note">1. La solicitud de tiquetes se debe de hacer 15 días antes del viaje, dado el caso de que se requiera un tiquete de último momento se debe tener la autorización del líder del proyecto, de lo contrario no se comprará el tiquete.</p>
+    <p class="note">2. En caso de los colaboradores comerciales (XploraLab y algunos miembros de Innovación), se va a tener flexibilidad únicamente dos veces al mes al momento de hacer la solicitud.</p>
+    <p class="note">3. En caso de algún cambio que genere sanción, el valor será asumido por el solicitante.</p>
+
+    <label for="nombre">Nombre completo</label>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre completo">
+
+    <label for="cedula">Cédula</label>
+    <input type="text" id="cedula" placeholder="Escribe tu número de cédula">
+
+    <label for="proyecto">Proyecto</label>
+    <select id="proyecto">
+        <option value="">Elije una opción</option>
+        <option value="proyecto1">Gobernación Comfandi</option>
+        <option value="proyecto2">Fortalecimiento rural</option>
+        <option value="proyecto3">Ciudades circulares</option>
+        <option value="proyecto1">Xploralab</option>
+        <option value="proyecto1">Interno</option>
+        <option value="proyecto1">Internos comercial</option>
+        <option value="proyecto1"> Circulos</option>
+        <option value="proyecto1">EFII</option>
+        <option value="proyecto1"> Stromboli</option>
+        <option value="proyecto1">Operación findech 2</option>
+        <option value="proyecto1">Equipo software</option>
+        <option value="proyecto1"> Transversal</option>
+        <option value="proyecto1">Equipo técnico financiero</option>
+        <option value="proyecto1">Economía circular</option>
+        <option value="proyecto1">Desarrollo económico circular</option>
+        <option value="proyecto1">Desarrollo económico territorial</option>
+        
+    </select>
+
+    <label for="lider">Líder del proyecto</label>
+    <input type="text" id="lider" placeholder="Escribe el nombre del líder del proyecto">
+
+    <label for="requiereTiquete">¿Requiere tiquete?</label>
+    <select id="requiereTiquete" onchange="toggleSection()">
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+    </select>
+
+    <div id="fechaNacimientoSection">
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+        <input type="text" id="fechaNacimiento" placeholder="DD/MM/AA">
+    </div>
+
+    <label for="trayecto">Trayecto completo</label>
+    <div class="trayecto-container">
+        <input type="text" id="trayecto" placeholder="Origen-Destino">
+        <input type="datetime-local" id="fechaIda">
+        <input type="datetime-local" id="fechaRegreso">
+    </div>
+
+    <label for="variosViajes">¿Harás varios viajes?</label>
+    <select id="variosViajes" onchange="toggleSection()">
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+    </select>
+
+    <div id="destinosSection">
+        <label>¿Cuáles son tus destinos? (Destino-Origen)</label>
+        <div id="destinosContainer"></div>
+        <button class="add-btn" onclick="addDestino()">Agregar</button>
+    </div>
+
+    <label for="requiereHospedaje">¿Requieres hospedaje en todos los destinos?</label>
+    <select id="requiereHospedaje" onchange="toggleSection()">
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+    </select>
+
+    <div id="ciudadHospedaje">
+        <label>¿En qué ciudad no necesitas hospedaje?</label>
+        <input type="text">
+    </div>
+
+</div>
+
+</body>
+</html>
