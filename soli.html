@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Gastos de Viaje</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --light-text: #7f8c8d;
+            --background: #ecf0f1;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-right: auto;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: white;
+            padding: 0 5px;
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-row:last-child {
+            border-bottom: none;
+        }
+
+        .form-row label {
+            flex: 1;
+            font-weight: 500;
+            padding: 12px 0;
+        }
+
+        .form-row input {
+            flex: 1;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            border-radius: 0;
+            padding: 12px 5px;
+            text-align: right;
+        }
+
+        .form-row input:focus {
+            border-bottom-color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .total-row {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+            padding: 0 15px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .total-row .form-row {
+            border-bottom: none;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: block;
+            width: 150px;
+            margin: 30px auto 0;
+            text-align: center;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .signature-section {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .signature-upload {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .signature-upload label {
+            position: static;
+            font-size: 16px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            border: 1px dashed #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .file-upload span {
+            display: block;
+            padding: 8px;
+            color: var(--light-text);
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--primary-color);
+            text-align: center;
+            display: none;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .back-btn::before {
+            content: '←';
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-row input {
+                text-align: left;
+            }
+            
+            .back-btn {
+                top: 10px;
+                left: 10px;
+            }
+            
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Mostrar el nombre del archivo seleccionado
+            document.getElementById('firma-input').addEventListener('change', function(e) {
+                var fileName = e.target.files[0] ? e.target.files[0].name : 'Ningún archivo seleccionado';
+                document.getElementById('file-name').textContent = fileName;
+                document.getElementById('file-name').style.display = 'block';
+            });
+
+            // Calcular el total automáticamente
+            const gastoInputs = document.querySelectorAll('.gasto-input');
+            const totalInput = document.getElementById('total-gastos');
+
+            gastoInputs.forEach(input => {
+                input.addEventListener('input', calcularTotal);
+            });
+
+            function calcularTotal() {
+                let total = 0;
+                gastoInputs.forEach(input => {
+                    const valor = parseFloat(input.value.replace(/[^\d.-]/g, '')) || 0;
+                    total += valor;
+                });
+                totalInput.value = formatCurrency(total);
+            }
+
+            function formatCurrency(value) {
+                return '$' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            }
+            
+            // Configurar el botón de volver
+            document.getElementById('back-button').addEventListener('click', function() {
+       
+                formulario.html.back();
+          ;
+            });
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <button id="back-button" class="back-btn">Volver</button>
+    
+    <div class="header">
+        <div class="logo">trulab</div>
+        <div class="title">Solicitud de gastos de viaje</div>
+    </div>
+    
+    <div class="form-group">
+        <label for="proyecto">Proyecto</label>
+        <input type="text" id="proyecto" class="form-control">
+    </div>
+    
+    <div class="form-group">
+        <label for="empresa">Empresa</label>
+        <input type="text" id="empresa" class="form-control">
+    </div>
+    
+    <div class="form-group">
+        <label for="solicitante">Solicitado por</label>
+        <input type="text" id="solicitante" class="form-control">
+    </div>
+    
+    <div class="form-group">
+        <label for="fecha-solicitud">Fecha de solicitud</label>
+        <input type="date" id="fecha-solicitud" class="form-control">
+    </div>
+    
+    <div class="form-group">
+        <label for="destino">Destino</label>
+        <input type="text" id="destino" class="form-control">
+    </div>
+    
+    <div class="form-group">
+        <label for="dias-estadia">Días de estadía</label>
+        <input type="number" id="dias-estadia" class="form-control">
+    </div>
+    
+    <div class="expenses-section">
+        <div class="form-row">
+            <label>Vr. Gastos por día:</label>
+            <input type="text" class="gasto-input" value="$170.000,00">
+        </div>
+        
+        <div class="form-row">
+            <label>Vr. Gastos por viaje:</label>
+            <input type="text" class="gasto-input" value="$1.500.000,00">
+        </div>
+        
+        <div class="form-row">
+            <label>Vr. Transporte Aeropuerto:</label>
+            <input type="text" class="gasto-input" value="$160.000,00">
+        </div>
+        
+        <div class="form-row">
+            <label>Vr. Transporte Intermunicipal:</label>
+            <input type="text" class="gasto-input" value="$-">
+        </div>
+    </div>
+    
+    <div class="total-row">
+        <div class="form-row">
+            <label>Vr. Total Gastos de viaje</label>
+            <input type="text" id="total-gastos" value="$1.660.000,00" readonly>
+        </div>
+    </div>
+    
+    <div class="signature-section">
+        <div class="signature-upload">
+            <label>Firma</label>
+            <div class="file-upload">
+                <span>+ Adjuntar firma</span>
+                <input type="file" id="firma-input" accept="image/*,.pdf">
+                <div id="file-name" class="file-name">Ningún archivo seleccionado</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="cedula">Cédula</label>
+        <input type="text" id="cedula" class="form-control">
+    </div>
+    
+    <button type="submit" class="submit-btn">ENVIAR</button>
+</div>
+
+</body>
+</html>
